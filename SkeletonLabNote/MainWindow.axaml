@@ -1,0 +1,48 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SkeletonLabNote.ViewModels"
+        xmlns:models="clr-namespace:SkeletonLabNote.Models"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SkeletonLabNote.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="SkeletonLabNote"
+        Width="900"
+        Height="600">
+    <Grid ColumnDefinitions="150,200,*" RowDefinitions="Auto,*">
+
+        <StackPanel Spacing="2" Orientation="Horizontal" Margin="5" >
+            <Button Content="New Notebook" Command="{Binding NewNotebookCommand}"/>
+            <Button Content="New Note" Command="{Binding NewNoteCommand}"/>
+            <Button Content="Save"  Command="{Binding SaveCommand}"/>
+        </StackPanel>
+
+        <ListBox Grid.Row="1" Grid.Column="0"
+                 ItemsSource="{Binding Notebooks}"
+                 SelectedItem="{Binding SelectedNotebook}"
+        >
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="models:Notebook">
+                    <TextBox Text="{Binding Name, Mode=TwoWay}" GotFocus="TextBox_OnGotFocus" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <ListBox Grid.Row="1" Grid.Column="1"
+                 ItemsSource="{Binding Notes}"
+                 SelectedItem="{Binding SelectedNote}"
+                 >
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="models:Note">
+                    <TextBox Text="{Binding Title, Mode=TwoWay}" GotFocus="TextBox_OnGotFocus" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBox Grid.Column="2"
+                 Grid.Row="1"
+                 Text="{Binding SelectedNote.Content, Mode=TwoWay}"
+                 AcceptsReturn="True"/>
+    </Grid>
+</Window>
